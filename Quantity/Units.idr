@@ -6,9 +6,6 @@ import Quantity.Prefix
 %access public export
 %default total
 
-inverse : Dimensions -> Dimensions
-inverse dim = Dimensionless / dim
-
 -- SI Units and dimensions
 
 Length : Dimensions

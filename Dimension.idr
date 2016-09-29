@@ -19,25 +19,26 @@ Dimensions = List Dimension
 Dimensionless : Dimensions
 Dimensionless = []
 
+inverse : Dimensions -> Dimensions
+inverse [] = []
+inverse ((Dim i p)::rest) = (Dim i (-p))::(inverse rest)
+
 makeDimension : Index -> Dimensions
 makeDimension n = [Dim n 1]
 
 -- This has a pre-requisite that the list of dimensions is ordered by the index. I should add that to the types....
-mergeDimensions : (Power -> Power -> Power) -> Dimensions -> Dimensions -> Dimensions
-mergeDimensions _ [] [] = []
-mergeDimensions f [] ((Dim dy ny) :: ys) = (Dim dy (f 0 ny)) :: (mergeDimensions f [] ys)
-mergeDimensions f ((Dim dx nx) :: xs) [] = (Dim dx (f nx 0)) :: (mergeDimensions f xs [])
-mergeDimensions f ((Dim dx nx) :: xs) ((Dim dy ny) :: ys) with (compare dx dy)
-  | LT = (Dim dx (f nx 0)) :: (mergeDimensions f xs ((Dim dy ny) :: ys))
-  | EQ = if (f nx ny) == 0
-            then mergeDimensions f xs ys
-            else (Dim dx (f nx ny)) :: (mergeDimensions f xs ys)
-  | GT = (Dim dy (f ny 0)) :: (mergeDimensions f ((Dim dx nx) :: xs) ys)
-
 (*) : Dimensions -> Dimensions -> Dimensions
-(*) = mergeDimensions (+)
+(*) [] [] = []
+(*) [] ys = ys
+(*) xs [] = xs
+(*) ((Dim dx nx) :: xs) ((Dim dy ny) :: ys) = combine (compare dx dy), (nx + ny))
+  | (LT, _) = (Dim dx nx) :: (xs * ((Dim dy ny) :: ys))
+  | (GT, _) = (Dim dy ny) :: (((Dim dx nx) :: xs) * ys)
+  | (EQ, 0) = xs * ys
+  | (EQ, n) = (Dim dx n) :: (xs * ys)
+
 (/) : Dimensions -> Dimensions -> Dimensions
-(/) = mergeDimensions (-)
+(/) x y = x * (inverse y)
 
 data Dimensioned : Type -> Dimensions -> Type where
   WithDim : a -> (d : Dimensions) -> Dimensioned a d
