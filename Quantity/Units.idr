@@ -93,18 +93,19 @@ Frequency = inverse Time
 hertz : Quantity Frequency
 hertz = (dimensionless 1) / seconds
 
-Force : Dimensions
-Force = (Mass * Length) / (Time * Time)
-newtons : Quantity Force
+-- not Force, because that *really* messes with lazy evaluation
+Weight : Dimensions
+Weight = (Mass * Length) / (Time * Time)
+newtons : Quantity Weight
 newtons = (kilograms * metres) / (square seconds)
 
 Pressure : Dimensions
-Pressure = Force / (Length * Length)
+Pressure = Weight / (Length * Length)
 pascals : Quantity Pressure
 pascals = newtons / (square metres)
 
 Energy : Dimensions
-Energy = Force * Length
+Energy = Weight * Length
 joules : Quantity Energy
 joules = newtons * metres
 
