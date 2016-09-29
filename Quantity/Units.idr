@@ -81,7 +81,7 @@ steradians = dimensionless 1
 Area : Dimensions
 Area = Length * Length
 hectares : Quantity Area
-hectares = 100 # square metres
+hectares = 10000 # square metres
 
 Volume : Dimensions
 Volume = Length * Length * Length

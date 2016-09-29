@@ -45,5 +45,8 @@ data Dimensioned : Type -> Dimensions -> Type where
 
 infixr 0 &
 
+(.) : (Dimensioned (b -> c) d) -> (Dimensioned (a -> b) d') -> (Dimensioned (a -> c) (d' * d))
+(.) (WithDim f d) (WithDim g d') = (WithDim (f . g) (d' * d))
+
 (&) : (Dimensioned (a -> b) d) -> (Dimensioned (b -> c) d') -> (Dimensioned (a -> c) (d * d'))
-(&) (WithDim f d) (WithDim g d') = (WithDim (g . f) (d * d'))
+(&) f g = g . f
