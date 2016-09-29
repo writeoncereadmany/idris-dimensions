@@ -31,7 +31,7 @@ makeDimension n = [Dim n 1]
 (*) [] [] = []
 (*) [] ys = ys
 (*) xs [] = xs
-(*) ((Dim dx nx) :: xs) ((Dim dy ny) :: ys) = combine (compare dx dy), (nx + ny))
+(*) ((Dim dx nx) :: xs) ((Dim dy ny) :: ys) with ((compare dx dy), (nx + ny))
   | (LT, _) = (Dim dx nx) :: (xs * ((Dim dy ny) :: ys))
   | (GT, _) = (Dim dy ny) :: (((Dim dx nx) :: xs) * ys)
   | (EQ, 0) = xs * ys
